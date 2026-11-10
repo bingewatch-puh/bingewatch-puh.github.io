@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Private Archive — Media Collection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* -------------------------------------------------------------
+       PALETTE: MOCHA, CHAMPAGNE, WARM IVORY & MUTED GOLD
+    -------------------------------------------------------------- */
+    :root {
+      /* Deep Roasted Mocha Bases */
+      --bg-mocha-base: #110d0b;
+      --bg-mocha-deep: #17120f;
+      --bg-mocha-surface: rgba(28, 22, 19, 0.72);
+      --bg-mocha-card: rgba(24, 19, 16, 0.78);
+      --bg-mocha-hover: rgba(38, 30, 26, 0.9);
+
+      /* Champagne & Warm Ivory */
+      --ivory-pure: #faf6f0;
+      --ivory-soft: #ede4d5;
+      --champagne-light: #f7e7ce;
+      --champagne-shimmer: #edd6b6;
+      --mocha-muted: #ad9a8b;
+      --mocha-dim: #6e5e52;
+
+      /* Muted Gold Accents */
+      --gold-muted: #cbb082;
+      --gold-rich: #dfc28e;
+      --gold-border: rgba(203, 176, 130, 0.18);
+      --gold-border-focus: rgba(223, 194, 142, 0.55);
+      --gold-glow: rgba(203, 176, 130, 0.22);
+      --gold-glow-subtle: rgba(203, 176, 130, 0.08);
+
+      /* Categorical Accents (Warm & Curated) */
+      --cat-movie: #d8a264;      /* Champagne Amber */
+      --cat-movie-bg: rgba(216, 162, 100, 0.12);
+      --cat-tv: #c6bda8;         /* Warm Ivory Parchment */
+      --cat-tv-bg: rgba(198, 189, 168, 0.12);
+      --cat-game: #bf8970;       /* Roasted Hazelnut / Terracotta */
+      --cat-game-bg: rgba(191, 137, 112, 0.12);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --radius-full: 9999px;
+
+      --transition-smooth: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-spring: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background-color: var(--bg-mocha-base);
+      color: var(--ivory-soft);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Warmth Gradients */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20vw;
+      left: 15vw;
+      width: 55vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(203, 176, 130, 0.07) 0%, rgba(17, 13, 11, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -20vw;
+      right: 10vw;
+      width: 60vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(140, 95, 65, 0.09) 0%, rgba(17, 13, 11, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* -------------------------------------------------------------
+       LAYOUT & TYPOGRAPHY
+    -------------------------------------------------------------- */
+    .app-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.25rem;
+    }
+
+    .serif-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      letter-spacing: -0.01em;
+    }
+
+    /* -------------------------------------------------------------
+       HEADER & NAVIGATION
+    -------------------------------------------------------------- */
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 1.15rem;
+    }
+
+    .monogram-badge {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, rgba(223, 194, 142, 0.15) 0%, rgba(203, 176, 130, 0.05) 100%);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px var(--gold-glow-subtle);
+      color: var(--gold-rich);
+    }
+
+    .brand-text h1 {
+      font-size: 1.85rem;
+      font-weight: 600;
+      color: var(--ivory-pure);
+      line-height: 1.1;
+    }
+
+    .brand-text p {
+      font-size: 0.8rem;
+      color: var(--mocha-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-top: 0.2rem;
+    }
+
+    .actions-cluster {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    /* -------------------------------------------------------------
+       BUTTONS & CHIPS
+    -------------------------------------------------------------- */
+    .btn {
+      appearance: none;
+      border: 1px solid var(--gold-border);
+      background: var(--bg-mocha-surface);
+      color: var(--ivory-soft);
+      padding: 0.7rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      backdrop-filter: blur(14px);
+      transition: var(--transition-spring);
+      outline: none;
+      user-select: none;
+    }
+
+    .btn:hover {
+      background: var(--bg-mocha-hover);
+      border-color: var(--gold-rich);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45), 0 0 16px var(--gold-glow-subtle);
+      color: var(--ivory-pure);
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #cbb082 0%, #b89968 100%);
+      color: #1a1410;
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 6px 20px var(--gold-glow);
+      font-weight: 700;
+    }
+
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #dfc28e 0%, #cbb082 100%);
+      color: #120e0b;
+      box-shadow: 0 8px 26px var(--gold-glow);
+    }
+
+    .btn-champagne {
+      background: rgba(203, 176, 130, 0.1);
+      border-color: rgba(203, 176, 130, 0.35);
+      color: var(--champagne-light);
+    }
+
+    .btn-champagne:hover {
+      background: rgba(203, 176, 130, 0.2);
+      border-color: var(--gold-rich);
+    }
+
+    .btn-icon-only {
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    /* -------------------------------------------------------------
+       PROGRESS OVERVIEW CARD
+    -------------------------------------------------------------- */
+    .dashboard-card {
+      background: var(--bg-mocha-surface);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 1.35rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle top gold foil highlight */
+    .dashboard-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--gold-muted) 50%, transparent 100%);
+      opacity: 0.5;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .progress-title-block h3 {
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--gold-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.35rem;
+    }
+
+    .progress-numbers {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2.35rem;
+      font-weight: 700;
+      color: var(--ivory-pure);
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      line-height: 1;
+    }
+
+    .progress-numbers span.total-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--mocha-muted);
+      font-weight: 500;
+    }
+
+    .progress-percentage {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2.85rem;
+      font-weight: 700;
+      color: var(--champagne-shimmer);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .progress-track-wrapper {
+      position: relative;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      border: 1px solid rgba(203, 176, 130, 0.1);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: var(--radius-full);
+      background: linear-gradient(90deg, #96754b 0%, #cbb082 50%, #f7e7ce 100%);
+      transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .progress-bar-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 12px;
+      background: #fff;
+      opacity: 0.7;
+      filter: blur(2px);
+    }
+
+    .category-pills-breakdown {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      border-top: 1px solid rgba(203, 176, 130, 0.08);
+      padding-top: 1rem;
+    }
+
+    .breakdown-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.825rem;
+      color: var(--mocha-muted);
+      font-weight: 500;
+    }
+
+    .chip-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .chip-dot.movie { background: var(--cat-movie); box-shadow: 0 0 8px rgba(216, 162, 100, 0.4); }
+    .chip-dot.tv { background: var(--cat-tv); box-shadow: 0 0 8px rgba(198, 189, 168, 0.4); }
+    .chip-dot.game { background: var(--cat-game); box-shadow: 0 0 8px rgba(191, 137, 112, 0.4); }
+
+    /* -------------------------------------------------------------
+       NAV & SEARCH CONTROLS
+    -------------------------------------------------------------- */
+    .controls-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .tabs-nav {
+      display: inline-flex;
+      background: var(--bg-mocha-surface);
+      padding: 0.35rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--gold-border);
+      backdrop-filter: blur(12px);
+      gap: 0.3rem;
+    }
+
+    .tab-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--mocha-muted);
+      padding: 0.55rem 1.2rem;
+      font-size: 0.825rem;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-smooth);
+      user-select: none;
+      outline: none;
+    }
+
+    .tab-btn:hover {
+      color: var(--ivory-pure);
+    }
+
+    .tab-btn.active {
+      background: rgba(203, 176, 130, 0.16);
+      color: var(--ivory-pure);
+      border: 1px solid rgba(203, 176, 130, 0.3);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    .tab-badge {
+      background: rgba(203, 176, 130, 0.14);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-full);
+      color: var(--champagne-light);
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+      max-width: 360px;
+      min-width: 250px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--mocha-dim);
+      pointer-events: none;
+      transition: var(--transition-smooth);
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-mocha-surface);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-full);
+      padding: 0.65rem 1rem 0.65rem 2.6rem;
+      color: var(--ivory-pure);
+      font-size: 0.85rem;
+      font-family: inherit;
+      outline: none;
+      transition: var(--transition-smooth);
+      backdrop-filter: blur(12px);
+    }
+
+    .search-input::placeholder {
+      color: var(--mocha-dim);
+    }
+
+    .search-input:focus {
+      border-color: var(--gold-border-focus);
+      background: var(--bg-mocha-hover);
+      box-shadow: 0 0 16px var(--gold-glow);
+    }
+
+    .search-input:focus + .search-icon {
+      color: var(--gold-rich);
+    }
+
+    /* -------------------------------------------------------------
+       MEDIA GRID & LUXURY CARDS
+    -------------------------------------------------------------- */
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .media-card {
+      background: var(--bg-mocha-card);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-md);
+      padding: 1.2rem 1.35rem;
+      backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      transition: var(--transition-spring);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .media-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(223, 194, 142, 0.4);
+      background: var(--bg-mocha-hover);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px var(--gold-glow-subtle);
+    }
+
+    .media-card.completed {
+      background: rgba(18, 14, 12, 0.55);
+      border-color: rgba(203, 176, 130, 0.08);
+    }
+
+    /* Decorative Edge Accent */
+    .media-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 3.5px;
+      opacity: 0.85;
+      transition: var(--transition-smooth);
+    }
+
+    .media-card[data-category="movie"]::before { background: var(--cat-movie); }
+    .media-card[data-category="tv"]::before { background: var(--cat-tv); }
+    .media-card[data-category="game"]::before { background: var(--cat-game); }
+
+    .media-card.completed::before {
+      opacity: 0.3;
+    }
+
+    /* Custom Checkbox */
+    .custom-checkbox {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border-radius: 7px;
+      border: 1.5px solid rgba(203, 176, 130, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.02);
+      transition: var(--transition-spring);
+    }
+
+    .media-card:hover .custom-checkbox {
+      border-color: var(--gold-rich);
+      transform: scale(1.06);
+    }
+
+    .media-card.completed .custom-checkbox {
+      background: var(--gold-rich);
+      border-color: var(--gold-rich);
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+
+    .custom-checkbox svg {
+      width: 14px;
+      height: 14px;
+      stroke: #140f0c; /* Deep mocha checkmark */
+      stroke-width: 3;
+      stroke-dasharray: 20;
+      stroke-dashoffset: 20;
+      transition: stroke-dashoffset 0.26s ease-out;
+    }
+
+    .media-card.completed .custom-checkbox svg {
+      stroke-dashoffset: 0;
+    }
+
+    /* Card Details */
+    .media-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .item-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ivory-soft);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: var(--transition-smooth);
+    }
+
+    .media-card.completed .item-title {
+      color: var(--mocha-dim);
+      text-decoration: line-through;
+    }
+
+    .category-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .category-badge.movie {
+      background: var(--cat-movie-bg);
+      color: var(--cat-movie);
+      border: 1px solid rgba(216, 162, 100, 0.25);
+    }
+    .category-badge.tv {
+      background: var(--cat-tv-bg);
+      color: var(--cat-tv);
+      border: 1px solid rgba(198, 189, 168, 0.25);
+    }
+    .category-badge.game {
+      background: var(--cat-game-bg);
+      color: var(--cat-game);
+      border: 1px solid rgba(191, 137, 112, 0.25);
+    }
+
+    .delete-btn {
+      appearance: none;
+      background: transparent;
+      border: none;
+      color: var(--mocha-dim);
+      padding: 0.4rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: var(--transition-smooth);
+    }
+
+    .media-card:hover .delete-btn {
+      opacity: 1;
+    }
+
+    .delete-btn:hover {
+      color: #e07a5f;
+      background: rgba(224, 122, 95, 0.12);
+    }
+
+    /* Empty State */
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 4.5rem 1rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      color: var(--mocha-muted);
+    }
+
+    .empty-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(203, 176, 130, 0.06);
+      border: 1px solid var(--gold-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-rich);
+    }
+
+    /* -------------------------------------------------------------
+       MODAL SYSTEM
+    -------------------------------------------------------------- */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 8, 7, 0.82);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 480px;
+      background: #17120f;
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 2.25rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px var(--gold-glow-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transform: translateY(20px) scale(0.96);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+
+    .modal-sheet::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 15%;
+      right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--gold-rich) 50%, transparent 100%);
+      opacity: 0.6;
+    }
+
+    .modal-backdrop.active .modal-sheet {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--ivory-pure);
+    }
+
+    .close-btn {
+      appearance: none;
+      background: transparent;
+      border: none;
+      color: var(--mocha-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      transition: var(--transition-smooth);
+    }
+
+    .close-btn:hover {
+      background: rgba(203, 176, 130, 0.12);
+      color: var(--ivory-pure);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .form-group label {
+      font-size: 0.775rem;
+      font-weight: 600;
+      color: var(--gold-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1rem;
+      color: var(--ivory-pure);
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .form-input:focus {
+      border-color: var(--gold-border-focus);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 16px var(--gold-glow);
+    }
+
+    .category-radio-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.65rem;
+    }
+
+    .category-radio-label {
+      cursor: pointer;
+    }
+
+    .category-radio-label input {
+      display: none;
+    }
+
+    .radio-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.85rem 0.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-md);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--mocha-muted);
+      transition: var(--transition-spring);
+      text-align: center;
+    }
+
+    .category-radio-label input:checked + .radio-pill {
+      border-color: var(--gold-rich);
+      background: rgba(203, 176, 130, 0.15);
+      color: var(--ivory-pure);
+      box-shadow: 0 4px 14px var(--gold-glow);
+      transform: translateY(-2px);
+    }
+
+    /* -------------------------------------------------------------
+       RANDOMIZER CASINO/SLOT DISPLAY
+    -------------------------------------------------------------- */
+    .randomizer-filter-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-md);
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .filter-checkbox-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+      color: var(--ivory-soft);
+    }
+
+    .filter-checkbox-item input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--gold-rich);
+      cursor: pointer;
+    }
+
+    .slot-display {
+      position: relative;
+      background: rgba(14, 11, 9, 0.75);
+      border: 1.5px dashed rgba(203, 176, 130, 0.25);
+      border-radius: var(--radius-md);
+      height: 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      overflow: hidden;
+      text-align: center;
+      transition: var(--transition-smooth);
+    }
+
+    .slot-display.spinning {
+      border-color: var(--gold-rich);
+      border-style: solid;
+      box-shadow: 0 0 25px var(--gold-glow);
+    }
+
+    .slot-display.winner-active {
+      border-color: var(--gold-rich);
+      border-style: solid;
+      background: radial-gradient(circle, rgba(203, 176, 130, 0.15) 0%, rgba(14, 11, 9, 0.9) 100%);
+      box-shadow: 0 0 35px var(--gold-glow);
+    }
+
+    .slot-category-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.35rem;
+    }
+
+    .slot-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--ivory-pure);
+      max-width: 90%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .slot-placeholder {
+      font-size: 0.875rem;
+      color: var(--mocha-dim);
+    }
+
+    .toast-msg {
+      background: rgba(224, 122, 95, 0.14);
+      border: 1px solid rgba(224, 122, 95, 0.3);
+      color: #f7b29d;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      display: none;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2000;
+    }
+
+    /* -------------------------------------------------------------
+       FOOTER
+    -------------------------------------------------------------- */
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 2.5rem 0 1rem 0;
+      color: var(--mocha-dim);
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 640px) {
+      .app-wrapper {
+        padding: 2rem 1rem 4rem 1rem;
+      }
+      .controls-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-wrapper {
+        max-width: 100%;
+      }
+      .tabs-nav {
+        overflow-x: auto;
+        justify-content: space-between;
+      }
+      .tab-btn {
+        padding: 0.5rem 0.85rem;
+        font-size: 0.775rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Shimmering Champagne Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="app-wrapper">
+
+    <!-- HEADER SECTION -->
+    <header>
+      <div class="top-bar">
+        <div class="brand-block">
+          <div class="monogram-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <h1 class="serif-title">Private Archive</h1>
+            <p>Curated Media &amp; Cultural Chronicles</p>
+          </div>
+        </div>
+
+        <div class="actions-cluster">
+          <button class="btn btn-icon-only" id="soundToggleBtn" title="Toggle Sound">
+            <svg id="soundIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+          </button>
+
+          <button class="btn btn-champagne" id="openRandomizerBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="3" rx="4"/>
+              <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+              <circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"/>
+              <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/>
+              <circle cx="8.5" cy="15.5" r="1.5" fill="currentColor"/>
+            </svg>
+            <span>Pick For Me</span>
+          </button>
+
+          <button class="btn btn-gold" id="openAddModalBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add Item</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PROGRESS OVERVIEW CARD -->
+      <div class="dashboard-card">
+        <div class="progress-meta">
+          <div class="progress-title-block">
+            <h3>Archival Mastery</h3>
+            <div class="progress-numbers">
+              <span id="completedCount">0</span>
+              <span class="total-label">/ <span id="totalCount">0</span> completed</span>
+            </div>
+          </div>
+          <div class="progress-percentage" id="progressPercentage">0%</div>
+        </div>
+
+        <div class="progress-track-wrapper">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+
+        <div class="category-pills-breakdown">
+          <div class="breakdown-chip">
+            <span class="chip-dot movie"></span>
+            <span>Movies: <strong id="movieStat" style="color: var(--ivory-soft);">0/0</strong></span>
+          </div>
+          <div class="breakdown-chip">
+            <span class="chip-dot tv"></span>
+            <span>TV Shows: <strong id="tvStat" style="color: var(--ivory-soft);">0/0</strong></span>
+          </div>
+          <div class="breakdown-chip">
+            <span class="chip-dot game"></span>
+            <span>Video Games: <strong id="gameStat" style="color: var(--ivory-soft);">0/0</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTROLS & SEARCH -->
+      <div class="controls-row">
+        <div class="tabs-nav" id="categoryTabs">
+          <button class="tab-btn active" data-tab="all">
+            All <span class="tab-badge" id="badgeAll">0</span>
+          </button>
+          <button class="tab-btn" data-tab="movie">
+            Movies <span class="tab-badge" id="badgeMovies">0</span>
+          </button>
+          <button class="tab-btn" data-tab="tv">
+            TV Shows <span class="tab-badge" id="badgeTv">0</span>
+          </button>
+          <button class="tab-btn" data-tab="game">
+            Video Games <span class="tab-badge" id="badgeGames">0</span>
+          </button>
+        </div>
+
+        <div class="search-wrapper">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search archive titles...">
+        </div>
+      </div>
+    </header>
+
+    <!-- MEDIA GRID -->
+    <main>
+      <div class="media-grid" id="mediaGrid">
+        <!-- Cards dynamically populated -->
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <span>Click any item to toggle completed status</span>
+      <span style="opacity: 0.6;">Private Media Archive &bull; Self-contained &amp; stored locally</span>
+    </footer>
+  </div>
+
+  <!-- ADD ITEM MODAL -->
+  <div class="modal-backdrop" id="addModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h2 class="serif-title">Add to Archive</h2>
+        <button class="close-btn" id="closeAddModalBtn" aria-label="Close modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="addItemForm" onsubmit="return false;">
+        <div class="form-group">
+          <label for="itemTitleInput">Title</label>
+          <input type="text" id="itemTitleInput" class="form-input" placeholder="e.g. Cinema Paradiso, Succession, Shadow of the Colossus" required autocomplete="off">
+        </div>
+
+        <div class="form-group" style="margin-top: 1rem;">
+          <label>Category</label>
+          <div class="category-radio-group">
+            <label class="category-radio-label">
+              <input type="radio" name="itemCategory" value="movie" checked>
+              <div class="radio-pill">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/></svg>
+                <span>Movie</span>
+              </div>
+            </label>
+            <label class="category-radio-label">
+              <input type="radio" name="itemCategory" value="tv">
+              <div class="radio-pill">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="15" x="2" y="7" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+                <span>TV Show</span>
+              </div>
+            </label>
+            <label class="category-radio-label">
+              <input type="radio" name="itemCategory" value="game">
+              <div class="radio-pill">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect width="20" height="12" x="2" y="6" rx="6"/></svg>
+                <span>Game</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="width: 100%; justify-content: center; margin-top: 1.5rem; padding: 0.85rem;">
+          Inscribe into Collection
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADVANCED "PICK FOR ME" RANDOMIZER -->
+  <div class="modal-backdrop" id="randomModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h2 class="serif-title">Curated Selection</h2>
+        <button class="close-btn" id="closeRandomModalBtn" aria-label="Close modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="randomizer-filter-box">
+        <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--gold-muted); letter-spacing: 0.08em;">
+          Select Categories to Draw From:
+        </span>
+        <label class="filter-checkbox-item">
+          <span style="display: flex; align-items: center; gap: 0.6rem;">
+            <span class="chip-dot movie"></span> Movies (<span id="randMovieRemain">0</span> uncompleted)
+          </span>
+          <input type="checkbox" id="randFilterMovie" checked>
+        </label>
+        <label class="filter-checkbox-item">
+          <span style="display: flex; align-items: center; gap: 0.6rem;">
+            <span class="chip-dot tv"></span> TV Shows (<span id="randTvRemain">0</span> uncompleted)
+          </span>
+          <input type="checkbox" id="randFilterTv" checked>
+        </label>
+        <label class="filter-checkbox-item">
+          <span style="display: flex; align-items: center; gap: 0.6rem;">
+            <span class="chip-dot game"></span> Video Games (<span id="randGameRemain">0</span> uncompleted)
+          </span>
+          <input type="checkbox" id="randFilterGame" checked>
+        </label>
+      </div>
+
+      <!-- Animated Ticker Display -->
+      <div class="slot-display" id="slotDisplay">
+        <span class="slot-category-tag" id="slotCategoryTag"></span>
+        <div class="slot-title" id="slotTitleText">What will destiny choose?</div>
+        <div class="slot-placeholder" id="slotPlaceholder">Select categories and draw</div>
+      </div>
+
+      <!-- Warning Toast when all items completed -->
+      <div class="toast-msg" id="randToastMsg">
+        All caught up! Every title in the selected categories is completed. Uncheck items or add fresh ones to randomize!
+      </div>
+
+      <div style="display: flex; gap: 0.75rem;">
+        <button class="btn btn-gold" id="startShuffleBtn" style="flex: 1; justify-content: center; padding: 0.85rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+          <span>Draw Title</span>
+        </button>
+
+        <button class="btn btn-champagne" id="markWinnerDoneBtn" style="display: none; padding: 0.85rem 1.25rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Mark Completed</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    /* =============================================================
+       DATA STORAGE & EXACT PRELOADED TITLES
+    ============================================================= */
+    const STORAGE_KEY = 'archive_media_data_v2';
+    const SOUND_KEY = 'archive_media_sound_v2';
+
+    const INITIAL_MEDIA = [
+      // Movies (11 items)
+      { id: 'm_1', title: 'The Godfather Trilogy', category: 'movie', completed: false },
+      { id: 'm_2', title: 'The Apu Trilogy', category: 'movie', completed: false },
+      { id: 'm_3', title: 'Catch Me If You Can', category: 'movie', completed: false },
+      { id: 'm_4', title: 'The Shawshank Redemption', category: 'movie', completed: false },
+      { id: 'm_5', title: 'Inception', category: 'movie', completed: false },
+      { id: 'm_6', title: 'Seven / Se7en', category: 'movie', completed: false },
+      { id: 'm_7', title: 'Zodiac', category: 'movie', completed: false },
+      { id: 'm_8', title: 'The Odyssey', category: 'movie', completed: false },
+      { id: 'm_9', title: 'Dune Films (Part 1 & 2)', category: 'movie', completed: false },
+      { id: 'm_10', title: 'Whiplash', category: 'movie', completed: false },
+      { id: 'm_11', title: 'Kill Bill: Vol. 1 & 2', category: 'movie', completed: false },
+
+      // TV Shows (6 items)
+      { id: 't_1', title: 'The Last of Us', category: 'tv', completed: false },
+      { id: 't_2', title: 'The Walking Dead', category: 'tv', completed: false },
+      { id: 't_3', title: 'The Sopranos', category: 'tv', completed: false },
+      { id: 't_4', title: 'Ted Lasso', category: 'tv', completed: false },
+      { id: 't_5', title: 'The Wire', category: 'tv', completed: false },
+      { id: 't_6', title: 'Euphoria', category: 'tv', completed: false },
+
+      // Video Games (8 items)
+      { id: 'g_1', title: 'The Walking Dead (Telltale)', category: 'game', completed: false },
+      { id: 'g_2', title: 'Resident Evil 2', category: 'game', completed: false },
+      { id: 'g_3', title: 'Resident Evil 4', category: 'game', completed: false },
+      { id: 'g_4', title: 'Resident Evil 7: Biohazard', category: 'game', completed: false },
+      { id: 'g_5', title: 'Call of Duty: Modern Warfare 2', category: 'game', completed: false },
+      { id: 'g_6', title: 'Cry of Fear', category: 'game', completed: false },
+      { id: 'g_7', title: 'Red Dead Redemption', category: 'game', completed: false },
+      { id: 'g_8', title: 'To the Moon', category: 'game', completed: false }
+    ];
+
+    let mediaItems = [];
+    let activeFilter = 'all';
+    let searchQuery = '';
+    let soundEnabled = true;
+    let selectedWinnerItem = null;
+
+    /* =============================================================
+       ACOUSTIC & WARM WEB AUDIO API SOUND SYSTEM
+    ============================================================= */
+    let audioCtx = null;
+
+    function getAudioCtx() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    const Sound = {
+      // Warm felt click
+      pop() {
+        if (!soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(540, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(270, ctx.currentTime + 0.045);
+
+          gain.gain.setValueAtTime(0.09, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.045);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.05);
+        } catch (e) {}
+      },
+
+      tab() {
+        if (!soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(420, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(680, ctx.currentTime + 0.04);
+
+          gain.gain.setValueAtTime(0.06, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.045);
+        } catch (e) {}
+      },
+
+      // Champagne glass / music box chime
+      completeChime() {
+        if (!soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          // Warm harmonic major arpeggio: F#5, A#5, C#6, F#6
+          const notes = [739.99, 932.33, 1108.73, 1479.98];
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            const startTime = ctx.currentTime + (idx * 0.055);
+            osc.frequency.setValueAtTime(freq, startTime);
+
+            gain.gain.setValueAtTime(0.001, startTime);
+            gain.gain.linearRampToValueAtTime(0.12, startTime + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.5);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(startTime);
+            osc.stop(startTime + 0.55);
+          });
+        } catch (e) {}
+      },
+
+      uncheck() {
+        if (!soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(360, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 0.06);
+
+          gain.gain.setValueAtTime(0.07, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.065);
+        } catch (e) {}
+      },
+
+      tick() {
+        if (!soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(880, ctx.currentTime);
+
+          gain.gain.setValueAtTime(0.045, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.02);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.025);
+        } catch (e) {}
+      },
+
+      // Celestial golden fanfare
+      fanfare() {
+        if (!soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const chord = [587.33, 739.99, 880.00, 1174.66, 1479.98]; // D major 9
+          chord.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            const startTime = ctx.currentTime + (idx * 0.04);
+            osc.frequency.setValueAtTime(freq, startTime);
+
+            gain.gain.setValueAtTime(0.001, startTime);
+            gain.gain.linearRampToValueAtTime(0.14, startTime + 0.03);
+            gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.8);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(startTime);
+            osc.stop(startTime + 0.85);
+          });
+        } catch (e) {}
+      }
+    };
+
+    /* =============================================================
+       LOCAL STORAGE & STATE
+    ============================================================= */
+    function loadSavedData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          mediaItems = JSON.parse(saved);
+        } catch (e) {
+          mediaItems = [...INITIAL_MEDIA];
+        }
+      } else {
+        mediaItems = [...INITIAL_MEDIA];
+        saveData();
+      }
+
+      const savedSound = localStorage.getItem(SOUND_KEY);
+      if (savedSound !== null) {
+        soundEnabled = savedSound === 'true';
+      }
+      updateSoundIcon();
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(mediaItems));
+    }
+
+    function updateSoundIcon() {
+      const icon = document.getElementById('soundIcon');
+      if (soundEnabled) {
+        icon.innerHTML = `
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        `;
+      } else {
+        icon.innerHTML = `
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        `;
+      }
+    }
+
+    /* =============================================================
+       RENDERING & BADGES
+    ============================================================= */
+    function getCategoryBadge(category) {
+      if (category === 'movie') {
+        return `
+          <span class="category-badge movie">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 12h18"/><path d="M17 3v18"/></svg>
+            Movie
+          </span>`;
+      } else if (category === 'tv') {
+        return `
+          <span class="category-badge tv">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="20" height="15" x="2" y="7" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+            TV Show
+          </span>`;
+      } else {
+        return `
+          <span class="category-badge game">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><rect width="20" height="12" x="2" y="6" rx="6"/></svg>
+            Video Game
+          </span>`;
+      }
+    }
+
+    function renderList() {
+      const grid = document.getElementById('mediaGrid');
+      grid.innerHTML = '';
+
+      const filtered = mediaItems.filter(item => {
+        const matchesCategory = (activeFilter === 'all') || (item.category === activeFilter);
+        const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase().trim());
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <p style="font-size: 1.15rem; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; color: var(--ivory-soft);">No items matching your criteria</p>
+            <p style="font-size: 0.85rem;">Refine your search or clear filters to view collection.</p>
+          </div>
+        `;
+      } else {
+        filtered.forEach(item => {
+          const card = document.createElement('div');
+          card.className = `media-card ${item.completed ? 'completed' : ''}`;
+          card.setAttribute('data-category', item.category);
+          card.setAttribute('data-id', item.id);
+
+          card.innerHTML = `
+            <div class="custom-checkbox" aria-label="Toggle completion">
+              <svg viewBox="0 0 24 24" fill="none">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+
+            <div class="media-info">
+              <span class="item-title" title="${item.title}">${escapeHtml(item.title)}</span>
+              ${getCategoryBadge(item.category)}
+            </div>
+
+            <button class="delete-btn" title="Remove from archive">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+              </svg>
+            </button>
+          `;
+
+          // Card click toggles checkbox
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-btn')) {
+              e.stopPropagation();
+              deleteItem(item.id);
+              return;
+            }
+            toggleItem(item.id);
+          });
+
+          grid.appendChild(card);
+        });
+      }
+
+      updateMetrics();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    /* =============================================================
+       DATA MUTATIONS
+    ============================================================= */
+    function toggleItem(id) {
+      const item = mediaItems.find(i => i.id === id);
+      if (!item) return;
+
+      item.completed = !item.completed;
+      saveData();
+
+      if (item.completed) {
+        Sound.completeChime();
+        // Check if all finished
+        const total = mediaItems.length;
+        const comp = mediaItems.filter(i => i.completed).length;
+        if (total > 0 && comp === total) {
+          triggerShimmerBurst(window.innerWidth / 2, window.innerHeight / 2, 75);
+        }
+      } else {
+        Sound.uncheck();
+      }
+
+      renderList();
+      updateRandomizerPills();
+    }
+
+    function deleteItem(id) {
+      Sound.pop();
+      mediaItems = mediaItems.filter(i => i.id !== id);
+      saveData();
+      renderList();
+      updateRandomizerPills();
+    }
+
+    function addItem(title, category) {
+      if (!title.trim()) return;
+
+      const newItem = {
+        id: 'arch_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        title: title.trim(),
+        category: category,
+        completed: false
+      };
+
+      mediaItems.unshift(newItem);
+      saveData();
+      Sound.pop();
+      renderList();
+      updateRandomizerPills();
+    }
+
+    function updateMetrics() {
+      const total = mediaItems.length;
+      const completed = mediaItems.filter(i => i.completed).length;
+      const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+      document.getElementById('completedCount').textContent = completed;
+      document.getElementById('totalCount').textContent = total;
+      document.getElementById('progressPercentage').textContent = `${percentage}%`;
+      document.getElementById('progressBarFill').style.width = `${percentage}%`;
+
+      // Category breakdown
+      const mov = mediaItems.filter(i => i.category === 'movie');
+      const tv = mediaItems.filter(i => i.category === 'tv');
+      const games = mediaItems.filter(i => i.category === 'game');
+
+      document.getElementById('movieStat').textContent = `${mov.filter(i => i.completed).length}/${mov.length}`;
+      document.getElementById('tvStat').textContent = `${tv.filter(i => i.completed).length}/${tv.length}`;
+      document.getElementById('gameStat').textContent = `${games.filter(i => i.completed).length}/${games.length}`;
+
+      // Tab count badges
+      document.getElementById('badgeAll').textContent = total;
+      document.getElementById('badgeMovies').textContent = mov.length;
+      document.getElementById('badgeTv').textContent = tv.length;
+      document.getElementById('badgeGames').textContent = games.length;
+    }
+
+    function updateRandomizerPills() {
+      const movUn = mediaItems.filter(i => i.category === 'movie' && !i.completed).length;
+      const tvUn = mediaItems.filter(i => i.category === 'tv' && !i.completed).length;
+      const gameUn = mediaItems.filter(i => i.category === 'game' && !i.completed).length;
+
+      document.getElementById('randMovieRemain').textContent = movUn;
+      document.getElementById('randTvRemain').textContent = tvUn;
+      document.getElementById('randGameRemain').textContent = gameUn;
+    }
+
+    /* =============================================================
+       RANDOMIZER (CRITICAL RULE: NOT COMPLETED ONLY)
+    ============================================================= */
+    let isSpinning = false;
+
+    function runRandomizer() {
+      if (isSpinning) return;
+
+      const includeMovie = document.getElementById('randFilterMovie').checked;
+      const includeTv = document.getElementById('randFilterTv').checked;
+      const includeGame = document.getElementById('randFilterGame').checked;
+
+      const toast = document.getElementById('randToastMsg');
+      const slotDisplay = document.getElementById('slotDisplay');
+      const slotTag = document.getElementById('slotCategoryTag');
+      const slotTitle = document.getElementById('slotTitleText');
+      const slotPlaceholder = document.getElementById('slotPlaceholder');
+      const markDoneBtn = document.getElementById('markWinnerDoneBtn');
+
+      markDoneBtn.style.display = 'none';
+      slotDisplay.classList.remove('winner-active');
+      toast.style.display = 'none';
+
+      const candidateCategories = [];
+      if (includeMovie) candidateCategories.push('movie');
+      if (includeTv) candidateCategories.push('tv');
+      if (includeGame) candidateCategories.push('game');
+
+      // CRITICAL RULE ENFORCED: Pick ONLY from uncompleted items
+      const eligibleItems = mediaItems.filter(item => {
+        return candidateCategories.includes(item.category) && !item.completed;
+      });
+
+      if (eligibleItems.length === 0) {
+        Sound.uncheck();
+        toast.style.display = 'block';
+        slotTag.textContent = '';
+        slotTitle.textContent = 'Archive Exhausted';
+        slotPlaceholder.textContent = 'All selected titles have been completed';
+        return;
+      }
+
+      isSpinning = true;
+      slotDisplay.classList.add('spinning');
+      slotPlaceholder.style.display = 'none';
+
+      let ticks = 0;
+      const maxTicks = 24;
+      let delay = 45;
+
+      function step() {
+        ticks++;
+        const preview = eligibleItems[Math.floor(Math.random() * eligibleItems.length)];
+
+        slotTag.textContent = preview.category.toUpperCase();
+        slotTag.style.color = preview.category === 'movie' ? 'var(--cat-movie)' : (preview.category === 'tv' ? 'var(--cat-tv)' : 'var(--cat-game)');
+        slotTitle.textContent = preview.title;
+        Sound.tick();
+
+        if (ticks < maxTicks) {
+          delay += Math.floor(ticks * 1.8);
+          setTimeout(step, delay);
+        } else {
+          // Final Winner Selected
+          const winner = eligibleItems[Math.floor(Math.random() * eligibleItems.length)];
+          selectedWinnerItem = winner;
+
+          slotTag.textContent = winner.category.toUpperCase();
+          slotTag.style.color = winner.category === 'movie' ? 'var(--cat-movie)' : (winner.category === 'tv' ? 'var(--cat-tv)' : 'var(--cat-game)');
+          slotTitle.textContent = winner.title;
+
+          slotDisplay.classList.remove('spinning');
+          slotDisplay.classList.add('winner-active');
+          isSpinning = false;
+
+          Sound.fanfare();
+          triggerShimmerBurst(window.innerWidth / 2, window.innerHeight / 2, 55);
+
+          markDoneBtn.style.display = 'inline-flex';
+        }
+      }
+
+      step();
+    }
+
+    /* =============================================================
+       MUTED GOLD & CHAMPAGNE SHIMMER (CANVAS)
+    ============================================================= */
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function triggerShimmerBurst(x, y, count = 40) {
+      // Champagne, Muted Gold & Warm Ivory flakes
+      const colors = ['#f7e7ce', '#dfc28e', '#cbb082', '#faf6f0', '#d8a264', '#bfa895'];
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 3.5 + Math.random() * 7;
+        particles.push({
+          x: x,
+          y: y,
+          vx: Math.cos(angle) * velocity,
+          vy: Math.sin(angle) * velocity - 2,
+          size: 3 + Math.random() * 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          decay: 0.012 + Math.random() * 0.014,
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 8
+        });
+      }
+      if (particles.length <= count) {
+        requestAnimationFrame(updateParticles);
+      }
+    }
+
+    function updateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.18; // soft gentle gravity
+        p.alpha -= p.decay;
+        p.rotation += p.rotationSpeed;
+
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.8);
+        ctx.restore();
+      }
+
+      if (particles.length > 0) {
+        requestAnimationFrame(updateParticles);
+      }
+    }
+
+    /* =============================================================
+       EVENT HANDLERS & MODAL BINDINGS
+    ============================================================= */
+    function setupEvents() {
+      // Audio context initialization on first interaction
+      const initAudio = () => {
+        getAudioCtx();
+        window.removeEventListener('click', initAudio);
+        window.removeEventListener('keydown', initAudio);
+      };
+      window.addEventListener('click', initAudio);
+      window.addEventListener('keydown', initAudio);
+
+      // Sound mute toggle
+      document.getElementById('soundToggleBtn').addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        localStorage.setItem(SOUND_KEY, soundEnabled);
+        updateSoundIcon();
+        if (soundEnabled) Sound.pop();
+      });
+
+      // Category Pill Tabs
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeFilter = btn.getAttribute('data-tab');
+          Sound.tab();
+          renderList();
+        });
+      });
+
+      // Realtime search
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        renderList();
+      });
+
+      // Add Modal Open / Close
+      const addModal = document.getElementById('addModal');
+      const openAddBtn = document.getElementById('openAddModalBtn');
+      const closeAddBtn = document.getElementById('closeAddModalBtn');
+      const titleInput = document.getElementById('itemTitleInput');
+
+      openAddBtn.addEventListener('click', () => {
+        Sound.pop();
+        addModal.classList.add('active');
+        setTimeout(() => titleInput.focus(), 80);
+      });
+
+      const closeAdd = () => {
+        Sound.pop();
+        addModal.classList.remove('active');
+        titleInput.value = '';
+      };
+      closeAddBtn.addEventListener('click', closeAdd);
+
+      document.getElementById('addItemForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = titleInput.value;
+        const category = document.querySelector('input[name="itemCategory"]:checked').value;
+        if (title.trim()) {
+          addItem(title, category);
+          closeAdd();
+        }
+      });
+
+      // Randomizer Modal
+      const randomModal = document.getElementById('randomModal');
+      const openRandBtn = document.getElementById('openRandomizerBtn');
+      const closeRandBtn = document.getElementById('closeRandomModalBtn');
+      const startShuffleBtn = document.getElementById('startShuffleBtn');
+      const markWinnerDoneBtn = document.getElementById('markWinnerDoneBtn');
+
+      openRandBtn.addEventListener('click', () => {
+        Sound.pop();
+        updateRandomizerPills();
+        document.getElementById('randToastMsg').style.display = 'none';
+        document.getElementById('slotDisplay').classList.remove('winner-active', 'spinning');
+        document.getElementById('slotCategoryTag').textContent = '';
+        document.getElementById('slotTitleText').textContent = 'What will destiny choose?';
+        document.getElementById('slotPlaceholder').style.display = 'block';
+        markWinnerDoneBtn.style.display = 'none';
+        selectedWinnerItem = null;
+        randomModal.classList.add('active');
+      });
+
+      const closeRandom = () => {
+        if (isSpinning) return;
+        Sound.pop();
+        randomModal.classList.remove('active');
+      };
+      closeRandBtn.addEventListener('click', closeRandom);
+
+      startShuffleBtn.addEventListener('click', runRandomizer);
+
+      // Mark winner completed directly from modal
+      markWinnerDoneBtn.addEventListener('click', () => {
+        if (selectedWinnerItem) {
+          toggleItem(selectedWinnerItem.id);
+          markWinnerDoneBtn.style.display = 'none';
+          document.getElementById('slotPlaceholder').textContent = 'Inscribed as completed! Draw another?';
+          document.getElementById('slotPlaceholder').style.display = 'block';
+          updateRandomizerPills();
+        }
+      });
+
+      // Close modal on outside click
+      [addModal, randomModal].forEach(modal => {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            if (modal === randomModal && isSpinning) return;
+            Sound.pop();
+            modal.classList.remove('active');
+          }
+        });
+      });
+
+      // Escape key
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (!isSpinning) {
+            addModal.classList.remove('active');
+            randomModal.classList.remove('active');
+          }
+        }
+      });
+    }
+
+    /* =============================================================
+       BOOTSTRAP APPLICATION
+    ============================================================= */
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedData();
+      renderList();
+      setupEvents();
+    });
+  </script>
+</body>
+</html>
